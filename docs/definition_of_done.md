@@ -2,9 +2,13 @@
 
 Each line gets a number or a link when it is ticked.
 
-- [ ] Endpoint returns correct counts, checked against a known task
-      Evidence: (compare endpoint output with a count from the database or
-      the CVAT UI for one label)
+- [x] Endpoint returns correct counts, checked against a known task
+      Evidence: Task #3 (coco-1050). Import file has 3418 COCO annotations
+      (3354 non-crowd + 64 crowd). Endpoint total is 3843 LabeledShape rows
+      (3779 polygon + 64 mask). Difference is 425: multi-part segmentations
+      become several polygon shapes. Verified: the file has 3779 polygon
+      parts in non-crowd annotations. Per-class API output:
+      bottle 218, car 461, chair 484, dog 44, person 2636.
 - [ ] Page calls the endpoint and shows a bar chart
       Evidence: (screenshot)
 - [ ] Empty case shows a clear message, no crash

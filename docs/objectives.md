@@ -19,7 +19,9 @@ on a laptop with Docker.
 - OS:  Microsoft Windows 10 Enterprise ( 10.0.19045 N/A Build 19045)
 - CVAT commit SHA: 8d7ae755c5b8de82e8711756b35c0207655ef1ae
 - Images in task: 1050 (task #3, coco-1050)
-- Annotations imported: 3418
+- Annotations imported: 3418 COCO annotations in the filtered file,
+  stored as 3843 shapes in CVAT (see DEFINITION_OF_DONE.md for the difference)
+
 
 ## Raw results
 (Paste the 5 raw curl outputs here, then median and min/max.)
