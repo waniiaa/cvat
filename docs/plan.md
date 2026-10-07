@@ -42,3 +42,5 @@ Show how many annotations each class has in a task, as a bar chart.
   `file.seek(self.file_size - 1)` raising OSError in cvat/apps/engine/tus.py,
   which happens when the uploaded file has size 0. Cause: the filtered
   file was empty. Being fixed before backend work starts.
+- Used docker cp plus restart instead of rebuilding the image, because rebuilding is heavy on a slow connection.
+- APIView failed under CVAT's default permission checker (view.detail missing), so permissions were set explicitly on the view.
