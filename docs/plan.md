@@ -34,13 +34,13 @@ Show how many annotations each class has in a task, as a bar chart.
 - Tracks and tags: only shapes are counted. This will be stated in the docs.
 
 ## Changes so far
-- Importing the full COCO annotation file failed ("Could not match item id")
-  because the task holds only a subset of images. Fix: a small script
-  (kept outside the repo) filters the COCO file to the uploaded images and
+- Importing the full COCO annotation file failed ("Could not match item id") because the task holds only a subset of images. Fix: a small script (kept outside the repo) filters the COCO file to the uploaded images and
   to the 5 labels (person, car, dog, chair, bottle).
-- Upload then failed with a 500 error. Server log shows
-  `file.seek(self.file_size - 1)` raising OSError in cvat/apps/engine/tus.py,
-  which happens when the uploaded file has size 0. Cause: the filtered
-  file was empty. Being fixed before backend work starts.
-- Used docker cp plus restart instead of rebuilding the image, because rebuilding is heavy on a slow connection.
-- APIView failed under CVAT's default permission checker (view.detail missing), so permissions were set explicitly on the view.
+- Upload then failed with a 500 error. Server log shows `file.seek(self.file_size - 1)` raising OSError in cvat/apps/engine/tus.py, which happens when the uploaded file has size 0. Cause: the filtered file was empty. Being fixed before backend work starts.
+- 7 Oct, backend check: API total (3843) did not match the import file (3418).
+  Investigated with a Django shell script kept outside the repo: one job, no
+  duplicates, no skeleton parents, 64 masks and 3779 polygons. Cause: COCO
+  multi-part segmentations become several CVAT polygon shapes. The endpoint
+  counts shapes, not COCO annotations.
+- used `docker cp` plus restart instead of rebuilding the image, because a rebuild is heavy on a slow connection.
+- APIView failed under CVAT's default permission checker (`view.detail` missing), so permission_classes are set explicitly on the view.
