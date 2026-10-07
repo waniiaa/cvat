@@ -2,19 +2,27 @@
 
 Each line gets a number or a link when it is ticked.
 
-- [x] Endpoint returns correct counts, checked against a known task
+- [✔] Endpoint returns correct counts, checked against a known task
       Evidence: Task #3 (coco-1050). Import file has 3418 COCO annotations
       (3354 non-crowd + 64 crowd). Endpoint total is 3843 LabeledShape rows
       (3779 polygon + 64 mask). Difference is 425: multi-part segmentations
       become several polygon shapes. Verified: the file has 3779 polygon
       parts in non-crowd annotations. Per-class API output:
       bottle 218, car 461, chair 484, dog 44, person 2636.
+
 - [ ] Page calls the endpoint and shows a bar chart
-      Evidence: (screenshot)
+      Note: Not verified. Code is committed in
+      cvat-ui/src/components/class-counts-page/ (page and chart) and the
+      route /tasks/:tid/class-counts is added in cvat-app.tsx. I could not
+      run the UI: `yarn install` failed with ENOSPC (C: drive had under
+      1 GB free). No screenshot exists.
+
 - [ ] Empty case shows a clear message, no crash
-      Evidence: (screenshot of a task with no annotations)
+      Note: Not verified in a browser, same reason. The code handles an empty list with an Empty component.
+
 - [ ] Failed request shows an error message, no crash
-      Evidence: (screenshot with the backend stopped or a wrong task id)
+      Note:  Not verified in a browser, same reason. The code shows an error message and a Retry button.
+
 - [✔] Request with no login is refused
   Evidence: curl.exe -i http://localhost:8080/api/tasks/3/class-counts
   HTTP/1.1 401 Unauthorized
@@ -63,6 +71,7 @@ gets the counts for the same task (200).
 - [✔] Everything not finished is listed below
 
 ## Not done (fill in at the end, with reasons)
-
+- Frontend (items 2, 3, 4): written and committed, never run or tested.
+  Cause: disk full, yarn install could not complete.
 - Item 7, 8, 9, 10: skipped by plan
 - Tracks and tags are not counted, only shapes
