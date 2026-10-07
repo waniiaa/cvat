@@ -1,4 +1,5 @@
 from django.db.models import Count
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -6,6 +7,7 @@ from cvat.apps.engine.models import LabeledShape
 
 
 class ClassCountView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request, task_id):
         rows = (
         # A shape has no task field. Follow shape -> job -> segment -> task.
