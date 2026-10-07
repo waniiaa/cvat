@@ -15,10 +15,45 @@ Each line gets a number or a link when it is ticked.
       Evidence: (screenshot of a task with no annotations)
 - [ ] Failed request shows an error message, no crash
       Evidence: (screenshot with the backend stopped or a wrong task id)
-- [ ] Request with no login is refused
-      Evidence: (curl output showing 401 or 403)
-- [ ] User without access to the task is refused
-      Evidence: (curl output showing 403 or 404 for a second user)
+- [✔] Request with no login is refused
+  Evidence: curl.exe -i http://localhost:8080/api/tasks/3/class-counts
+  HTTP/1.1 401 Unauthorized
+  Allow: GET, HEAD, OPTIONS
+  Content-Length: 58
+  Content-Type: application/vnd.cvat+json
+  Cross-Origin-Opener-Policy: same-origin
+  Date: Wed, 07 Oct 2026 09:35:08 GMT
+  Referrer-Policy: strict-origin-when-cross-origin
+  Server: nginx
+  Vary: Accept, Origin, Cookie
+  Www-Authenticate: Token
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  X-Request-Id: 5bbb8b18-18dd-4638-b109-f904b276fd06
+
+{"detail":"Authentication credentials were not provided."}
+
+- [✔] User without access to the task is refused
+  Evidence: user `tester1` (normal user, not staff, not superuser, does
+  not own task 3) logged in with valid credentials and called
+  curl.exe -i -u "tester1:Bottle123\_" http://localhost:8080/api/tasks/3/class-counts
+  HTTP/1.1 404 Not Found
+  Allow: GET, HEAD, OPTIONS
+  Content-Length: 45
+  Content-Type: application/vnd.cvat+json
+  Cross-Origin-Opener-Policy: same-origin
+  Date: Wed, 07 Oct 2026 09:07:14 GMT
+  Referrer-Policy: strict-origin-when-cross-origin
+  Server: nginx
+  Vary: Accept, Origin, Cookie
+  X-Content-Type-Options: nosniff
+  X-Request-Id: 175e1845-1c71-4e86-a70c-4e2194030575
+
+{"detail":"No Task matches the given query."}
+404 instead of 403 is deliberate: the
+endpoint does not reveal that the task exists. The admin user `wania`
+gets the counts for the same task (200).
+
 - [ ] Speed measured 5 times, raw output saved
       Evidence: (raw output in OBJECTIVES.md)
 - [ ] Target of median below 250 ms met, or missed with the reason written
@@ -28,5 +63,6 @@ Each line gets a number or a link when it is ticked.
 - [ ] Everything not finished is listed below
 
 ## Not done (fill in at the end, with reasons)
+
 - Item 7, 8, 9, 10: skipped by plan
 - Tracks and tags are not counted, only shapes
